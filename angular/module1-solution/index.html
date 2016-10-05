@@ -13,29 +13,33 @@
             font-size: 1.3em;
             font-weight: bold;
         }
+
+        .red {
+            color: red;
+            border: solid red;
+        }
+
+        .green {
+            color: green;
+            border: solid green;
+        }
     </style>
 </head>
 <body ng-controller="LunchCheckController">
-    <h1>My first AngularJS App</h1>
-    <div>
-        <input type="text" ng-model="name" ng-keyup="displayNumeric()">
-        Inside my input is sss: {{name}}<br>
-    </div>
-    <div>Total Numeric value of person's name is: {{totalValue}}</div>
-
     <div class="container">
         <h1>Lunch Checker</h1>
 
         <div class="form-group">
-            <input id="lunch-menu" type="text"
+            <input id="lunch-menu" type="text" ng-model="dishes"
                    placeholder="list comma separated dishes you usually have for lunch"
                    class="form-control">
         </div>
         <div class="form-group">
-            <button class="btn btn-default">Check If Too Much</button>
+            <button class="btn btn-default" ng-click="displayMessage()">Check If Too Much</button>
         </div>
-        <div class="form-group message">
-            <!-- Your message can go here. -->
+
+        <div class="form-group message {{messageStyle}}">
+            {{messageContent}}
         </div>
     </div>
 </body>

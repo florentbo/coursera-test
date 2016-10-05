@@ -1,25 +1,45 @@
 (function () {
-'use strict';
+    'use strict';
 
-angular.module('LunchCheck', [])
+    angular.module('LunchCheck', [])
+        .controller('LunchCheckController', function ($scope) {
+            $scope.messageContent = "";
+            $scope.messageStyle = "";
+            $scope.dishes = "";
 
-.controller('LunchCheckController', function ($scope) {
-  $scope.name = "";
-  $scope.totalValue = 0;
-  $scope.displayNumeric = function () {
-    var totalNameValue = calulNumericForString($scope.name)
-      $scope.totalValue= totalNameValue;
+            $scope.displayMessage = function () {
+                var message = chooseMessage($scope.dishes);
+                $scope.messageContent = message.content;
+                $scope.messageStyle = message.style;
+            };
 
-  };
+            function chooseMessage(dishes){
+                var comma = ',';
+                var enjoy = "Enjoy!";
+                var tooMuch = "Too much!";
+                var enterData = "Please enter data first";
+                var danger = "red";
+                var success = "green";
 
-  function calulNumericForString(string) {
-      var totalStringValue = 0;
-      for (var i = 0; i < string.length; i++) {
-          totalStringValue += string.charCodeAt(i);
-      }
+                if(!dishes){
+                    return {
+                        content : enterData,
+                        style : danger
+                    }
+                } else {
+                    var dishesList = dishes.split(comma);
+                    var filteredArray = [];
+                    angular.forEach(dishesList, function(item) {
+                        if (item.trim()) filteredArray.push(item);
+                    });
+                    var dishesListLength = filteredArray.length;
+                    return {
+                        content : dishesListLength >3 ? tooMuch : enjoy,
+                        style : success
+                    }
+                }
 
-      return totalStringValue;
-  }
-});
+            }
+        });
 
 })();
