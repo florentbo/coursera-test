@@ -24,7 +24,8 @@ object Main {
     */
   def balance(chars: List[Char]): Boolean = {
     var openedBrackets = 0
-    def process(head: Char, tail: List[Char]): Boolean = {
+    def process(tail: List[Char]): Boolean = {
+      val head = tail.head
       if (head == '(') {
         openedBrackets += 1
       }
@@ -32,12 +33,11 @@ object Main {
         if(openedBrackets>0){
           openedBrackets -= 1
         } else return false
-
       }
-      if(tail.isEmpty) openedBrackets == 0
-      else process(tail.head, tail.tail)
+      if(tail.tail.isEmpty) openedBrackets == 0
+      else process(tail.tail)
     }
-    process(chars.head, chars.tail)
+    process(chars)
   }
 
   /**
