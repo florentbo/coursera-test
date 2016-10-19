@@ -1,74 +1,28 @@
 (function () {
     'use strict';
 
-    angular.module('ShoppingListCheckOff', [])
-        .controller('ToBuyController', ToBuyController)
-        .controller('AlreadyBoughtController', AlreadyBoughtController)
-        .service('ShoppingListCheckOffService', ShoppingListCheckOffService);
+    angular.module('NarrowItDownApp', [])
+        .controller('NarrowItDownController', NarrowItDownController)
+        .service('MenuSearchService', MenuSearchService);
 
 
-    ToBuyController.$inject = ['ShoppingListCheckOffService'];
-    function ToBuyController(ShoppingListCheckOffService) {
+    NarrowItDownController.$inject = ['MenuSearchService'];
+    function NarrowItDownController(MenuSearchService) {
         var shoppingList = this;
 
-        shoppingList.toBuyItems = ShoppingListCheckOffService.getToBuyItems();
+        shoppingList.found = MenuSearchService.getMatchedMenuItems(searchTerm);
 
-        shoppingList.moveItem = function (itemIndex) {
-            ShoppingListCheckOffService.moveItem(itemIndex);
-        };
+
 
     }
 
-    AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
-    function AlreadyBoughtController(ShoppingListCheckOffService) {
-        var shoppingList = this;
-
-        shoppingList.boughtItems = ShoppingListCheckOffService.getBoughtItems();
-    }
-
-    function ShoppingListCheckOffService() {
+    function MenuSearchService() {
         var service = this;
 
-        // List of shopping items
-        var toBuyItems = shoppingList;
-        var boughtItems = [];
-
-        service.moveItem = function (itemIndex) {
-            var item = toBuyItems[itemIndex];
-            toBuyItems.splice(itemIndex, 1);
-            boughtItems.push(item);
+        service.getMatchedMenuItems = function (searchTerm) {
+            console.log("hello florent");
         };
 
-        service.getToBuyItems = function () {
-            return toBuyItems;
-        };
-
-        service.getBoughtItems = function () {
-            return boughtItems;
-        };
     }
-
-    var shoppingList = [
-        {
-            name: "Milk",
-            quantity: "2"
-        },
-        {
-            name: "Golf balls",
-            quantity: "77"
-        },
-        {
-            name: "Donuts",
-            quantity: "200"
-        },
-        {
-            name: "Cookies",
-            quantity: "300"
-        },
-        {
-            name: "Chocolate",
-            quantity: "5"
-        }
-    ];
 
 })();
