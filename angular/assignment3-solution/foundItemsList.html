@@ -1,6 +1,19 @@
-<ol>
-    <li ng-repeat="item in list.items track by $index">
-        {{ item }}
-        <button ng-click="list.onRemove({index: $index});">Remove Item</button>
-    </li>
-</ol>
+<table class="table">
+    <!--<thead>
+    <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+    </tr>
+    </thead>-->
+    <tbody>
+    <tr ng-repeat="item in list.items">
+        <td>{{ item.name }}</td>
+        <td>{{ item.short_name }}</td>
+        <td>{{ item.description }}</td>
+        <td>
+            <button ng-click="list.onRemove({index: $index});">Remove Item</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

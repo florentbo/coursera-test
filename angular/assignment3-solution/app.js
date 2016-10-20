@@ -61,9 +61,9 @@
                     var menu_items = angular.fromJson(response.data.menu_items);
 
                     for (var i = 0; i < menu_items.length; i++) {
-                        var description = menu_items[i].description;
-                        if (description.toLowerCase().indexOf(searchTerm) != -1){
-                            items.push(description);
+                        var menu_item = menu_items[i];
+                        if (menu_item.description.toLowerCase().indexOf(searchTerm) != -1){
+                            items.push(menu_item);
                         }
                     }
                 })
