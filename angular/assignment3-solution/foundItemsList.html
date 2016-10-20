@@ -1,0 +1,6 @@
+<ol>
+    <li ng-repeat="item in list.items track by $index">
+        {{ item }}
+        <button ng-click="list.onRemove({index: $index});">Remove Item</button>
+    </li>
+</ol>
