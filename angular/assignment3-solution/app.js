@@ -11,7 +11,8 @@
         var ddo = {
             templateUrl: 'foundItemsList.html',
             scope: {
-                items: '<'
+                items: '<',
+                onRemove: '&'
             },
             controller: FoundItemsDirectiveController,
             controllerAs: 'list',
@@ -36,15 +37,11 @@
         list.items = service.getItems();
 
         list.searchItem = function () {
-            console.log("hello searchItem: " +  list.choice);
             service.getMatchedMenuItems(list.choice);
         };
 
         list.removeItem = function (itemIndex) {
-            console.log("'this' is: ", this);
-            /*this.lastRemoved = "Last item removed was " + this.items[itemIndex].name;
-            shoppingList.removeItem(itemIndex);
-            this.title = origTitle + " (" + viewList.items.length + " items )";*/
+            service.removeItem(itemIndex);
         };
     }
 
@@ -61,18 +58,14 @@
             });
 
             promise.then(function (response) {
-                    console.log("hello promise");
                     var menu_items = angular.fromJson(response.data.menu_items);
 
                     for (var i = 0; i < menu_items.length; i++) {
                         var description = menu_items[i].description;
                         if (description.toLowerCase().indexOf(searchTerm) != -1){
-                            //console.log("push : " + description);
                             items.push(description);
                         }
                     }
-                    console.log("found : " + items);
-                    return items;
                 })
                 .catch(function (error) {
                     console.log("Something went terribly wrong.");
@@ -81,6 +74,10 @@
 
         service.getItems = function () {
             return items;
+        };
+
+        service.removeItem = function (itemIndex) {
+            items.splice(itemIndex, 1);
         };
     }
 })();
