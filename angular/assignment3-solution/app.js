@@ -36,17 +36,25 @@
         list.checkNothing = false;
 
         list.searchItem = function () {
-            service.getMatchedMenuItems(list.choice).then(function(result)
-            {
-                list.items=result;
-                if(list.items.length===0)
-                    list.checkNothing=true;
-            });
+            if (isEmpty(list.choice)) {
+                list.checkNothing = true;
+            }
+            else {
+                service.getMatchedMenuItems(list.choice).then(function (result) {
+                    list.items = result;
+                    if (list.items.length === 0)
+                        list.checkNothing = true;
+                });
+            }
         };
 
         list.removeItem = function (itemIndex) {
             service.removeItem(itemIndex);
         };
+    }
+
+    function isEmpty(str) {
+        return (!str || 0 === str.length);
     }
 
     MenuSearchService.$inject = ['$http', 'ApiBasePath'];
