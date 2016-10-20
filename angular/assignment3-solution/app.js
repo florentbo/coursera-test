@@ -29,15 +29,19 @@
     NarrowItDownController.$inject = ['MenuSearchService'];
     function NarrowItDownController(MenuSearchService) {
         var list = this;
-
-        list.choice = "";
-
         var service = MenuSearchService;
 
-        list.items = service.getItems();
+        list.choice = "";
+        list.items = [];
+        list.checkNothing = false;
 
         list.searchItem = function () {
-            service.getMatchedMenuItems(list.choice);
+            service.getMatchedMenuItems(list.choice).then(function(result)
+            {
+                list.items=result;
+                if(list.items.length===0)
+                    list.checkNothing=true;
+            });
         };
 
         list.removeItem = function (itemIndex) {
@@ -52,28 +56,23 @@
         var items = [];
 
         service.getMatchedMenuItems = function (searchTerm) {
-            var promise = $http({
+            return $http({
                 method: "GET",
                 url: (ApiBasePath + "/menu_items.json")
-            });
+            }).then(function (response) {
+                var menu_items = angular.fromJson(response.data.menu_items);
 
-            promise.then(function (response) {
-                    var menu_items = angular.fromJson(response.data.menu_items);
-
-                    for (var i = 0; i < menu_items.length; i++) {
-                        var menu_item = menu_items[i];
-                        if (menu_item.description.toLowerCase().indexOf(searchTerm) != -1){
-                            items.push(menu_item);
-                        }
+                for (var i = 0; i < menu_items.length; i++) {
+                    var menu_item = menu_items[i];
+                    if (menu_item.description.toLowerCase().indexOf(searchTerm) != -1) {
+                        items.push(menu_item);
                     }
-                })
+                }
+                return items;
+            })
                 .catch(function (error) {
                     console.log("Something went terribly wrong.");
                 });
-        };
-
-        service.getItems = function () {
-            return items;
         };
 
         service.removeItem = function (itemIndex) {
