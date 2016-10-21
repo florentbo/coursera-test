@@ -31,10 +31,12 @@
         list.choice = "";
 
         list.searchItem = function () {
-            if (isNotEmpty(list.choice)) {
-                MenuSearchService.getMatchedMenuItems(list.choice).then(function (result) {
-                    list.items = result.found;
-                    list.checkNothing = result.isEmpty;
+            var foundItems = MenuSearchService.getMatchedMenuItems(list.choice);
+
+            if (foundItems) {
+                foundItems.then(function (result) {
+                    list.items = result;
+                    list.checkNothing = result.length === 0;
                 });
             } else {
                 list.checkNothing = true;
@@ -59,29 +61,30 @@
         var items = [];
 
         service.getMatchedMenuItems = function (searchTerm) {
-            return $http({
-                method: "GET",
-                url: (ApiBasePath + "/menu_items.json")
-            }).then(function (response) {
-                    var menu_items = angular.fromJson(response.data.menu_items);
-                    items.length = 0;
+            if (isNotEmpty(searchTerm)) {
+                return $http({
+                    method: "GET",
+                    url: (ApiBasePath + "/menu_items.json")
+                }).then(function (response) {
+                        var menu_items = angular.fromJson(response.data.menu_items);
+                        items.length = 0;
 
-                    for (var i = 0; i < menu_items.length; i++) {
-                        var menu_item = menu_items[i];
-                        if (menu_item.description.toLowerCase().indexOf(searchTerm) != -1) {
-                            items.push(menu_item);
+                        for (var i = 0; i < menu_items.length; i++) {
+                            var menu_item = menu_items[i];
+                            if (menu_item.description.toLowerCase().indexOf(searchTerm) != -1) {
+                                items.push(menu_item);
+                            }
                         }
-                    }
-                    console.log("items: " + items.length);
-                    return {
-                        found: items,
-                        isEmpty: items.length === 0
-                    }
-                })
-                .catch(function (error) {
-                    console.log("Something went terribly wrong.");
-                });
+                        console.log("items: " + items.length);
+                        return items;
+                    })
+                    .catch(function (error) {
+                        console.log("Something went terribly wrong.");
+                    });
 
+            } else {
+                return false
+            }
         };
 
         service.getItems = function () {
