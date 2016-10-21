@@ -27,32 +27,21 @@
     NarrowItDownController.$inject = ['MenuSearchService'];
     function NarrowItDownController(MenuSearchService) {
         var list = this;
-        var service = MenuSearchService;
 
         list.choice = "";
-        list.items = [];
-        list.checkNothing = false;
 
         list.searchItem = function () {
-            if (isEmpty(list.choice)) {
-                list.checkNothing = true;
-                list.items = [];
-            }
-            else {
-                service.getMatchedMenuItems(list.choice).then(function (result) {
-                    list.items = result;
-                    if (list.items.length === 0) {
-                        list.checkNothing = true;
-                        list.items = [];
-                    } else {
-                        list.checkNothing = false;
-                    }
+            if (isNotEmpty(list.choice)) {
+                MenuSearchService.getMatchedMenuItems(list.choice).then(function (result) {
+                    list.items = result.found;
+                    list.checkNothing = result.isEmpty;
                 });
+            } else {
+                list.checkNothing = true;
             }
         };
-
         list.removeItem = function (itemIndex) {
-            service.removeItem(itemIndex);
+            MenuSearchService.removeItem(itemIndex);
         };
     }
 
@@ -60,17 +49,22 @@
         return (!str || 0 === str.length);
     }
 
+    function isNotEmpty(str) {
+        return !isEmpty(str);
+    }
+
     MenuSearchService.$inject = ['$http', 'ApiBasePath'];
     function MenuSearchService($http, ApiBasePath) {
         var service = this;
+        var items = [];
 
         service.getMatchedMenuItems = function (searchTerm) {
             return $http({
                 method: "GET",
                 url: (ApiBasePath + "/menu_items.json")
             }).then(function (response) {
-                    var items = [];
                     var menu_items = angular.fromJson(response.data.menu_items);
+                    items.length = 0;
 
                     for (var i = 0; i < menu_items.length; i++) {
                         var menu_item = menu_items[i];
@@ -78,11 +72,20 @@
                             items.push(menu_item);
                         }
                     }
-                    return items;
+                    console.log("items: " + items.length);
+                    return {
+                        found: items,
+                        isEmpty: items.length === 0
+                    }
                 })
                 .catch(function (error) {
                     console.log("Something went terribly wrong.");
                 });
+
+        };
+
+        service.getItems = function () {
+            return items;
         };
 
         service.removeItem = function (itemIndex) {
