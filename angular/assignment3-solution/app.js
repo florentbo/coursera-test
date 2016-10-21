@@ -8,7 +8,7 @@
         .constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
 
     function FoundItemsDirective() {
-        var ddo = {
+        return {
             templateUrl: 'foundItemsList.html',
             scope: {
                 items: '<',
@@ -18,8 +18,6 @@
             controllerAs: 'list',
             bindToController: true
         };
-
-        return ddo;
     }
 
     function FoundItemsDirectiveController() {
@@ -38,12 +36,17 @@
         list.searchItem = function () {
             if (isEmpty(list.choice)) {
                 list.checkNothing = true;
+                list.items = [];
             }
             else {
                 service.getMatchedMenuItems(list.choice).then(function (result) {
                     list.items = result;
-                    if (list.items.length === 0)
+                    if (list.items.length === 0) {
                         list.checkNothing = true;
+                        list.items = [];
+                    } else {
+                        list.checkNothing = false;
+                    }
                 });
             }
         };
@@ -61,23 +64,22 @@
     function MenuSearchService($http, ApiBasePath) {
         var service = this;
 
-        var items = [];
-
         service.getMatchedMenuItems = function (searchTerm) {
             return $http({
                 method: "GET",
                 url: (ApiBasePath + "/menu_items.json")
             }).then(function (response) {
-                var menu_items = angular.fromJson(response.data.menu_items);
+                    var items = [];
+                    var menu_items = angular.fromJson(response.data.menu_items);
 
-                for (var i = 0; i < menu_items.length; i++) {
-                    var menu_item = menu_items[i];
-                    if (menu_item.description.toLowerCase().indexOf(searchTerm) != -1) {
-                        items.push(menu_item);
+                    for (var i = 0; i < menu_items.length; i++) {
+                        var menu_item = menu_items[i];
+                        if (menu_item.description.toLowerCase().indexOf(searchTerm) != -1) {
+                            items.push(menu_item);
+                        }
                     }
-                }
-                return items;
-            })
+                    return items;
+                })
                 .catch(function (error) {
                     console.log("Something went terribly wrong.");
                 });
