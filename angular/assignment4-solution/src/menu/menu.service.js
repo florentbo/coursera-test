@@ -15,6 +15,8 @@
                 method: "GET",
                 url: (ApiBasePath + "/categories.json")
             }).then(function (response) {
+/*                    console.log("response: " + response);
+                    console.log("response: " + response.data);*/
                     var items = response.data;
                     console.log("items in getCategories: " + items.length);
                     return items;
@@ -27,12 +29,12 @@
         service.getItemsForCategory = function (shortName) {
             return $http({
                 method: "GET",
-                url: (ApiBasePath + "/categories.json"),
+                url: (ApiBasePath + "/menu_items.json"),
                 params: {
                     category: shortName
                 }
             }).then(function (response) {
-                    var items = response.data;
+                    var items = angular.fromJson(response.data.menu_items);
                     console.log("items in getItemsForCategory: " + items.length);
                     return items;
                 })
