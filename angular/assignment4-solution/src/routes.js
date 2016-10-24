@@ -25,32 +25,22 @@
                 controller: 'CategoriesController as categories',
                 resolve: {
                     items: ['MenuService', function (MenuService) {
-                        //console.log("hello" + $stateParams);
                         return MenuService.getCategories();
                     }]
                 }
             })
 
             .state('category', {
-                url: '/category/{itemId}',
+                url: '/category/:itemDescription',
                 templateUrl: 'src/menu/templates/category.template.html',
                 controller: 'CategoryController as category',
                 resolve: {
                     item: ['$stateParams', 'MenuService',
                         function ($stateParams, MenuService) {
-                            //return MenuService.getItemsForCategory("C");
-                            return MenuService.getItemsForCategory("C")
-                                .then(function (items) {
-                                    console.log($stateParams);
-                                    console.log($stateParams.itemId);
-                                    //return items[$stateParams.itemId];
-                                    return items;
-                                });
+                            return MenuService.getItemsForCategory($stateParams.itemDescription);
                         }]
                 }
-            })
-
-            ;
+            });
     }
 
 })();

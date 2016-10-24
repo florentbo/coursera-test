@@ -1,20 +1,12 @@
-<!--<span> {{ category.name }} </span>-->
+<a ui-sref="home">Home</a> &lt;
+<a ui-sref="categories">Menu Categories</a> &lt;
 
-ther is a table <br>
 <table class="table">
-    <!--<thead>
-    <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Email</th>
-    </tr>
-    </thead>-->
     <tbody>
     <tr ng-repeat="item in category.items">
         <td>{{ item.name }}</td>
         <td>{{ item.short_name }}</td>
         <td>{{ item.description }}</td>
-
     </tr>
     </tbody>
 </table>
