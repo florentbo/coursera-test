@@ -31,13 +31,13 @@
             })
 
             .state('category', {
-                url: '/category/:itemDescription',
+                url: '/category/:itemId',
                 templateUrl: 'src/menu/templates/category.template.html',
                 controller: 'CategoryController as category',
                 resolve: {
                     item: ['$stateParams', 'MenuService',
                         function ($stateParams, MenuService) {
-                            return MenuService.getItemsForCategory($stateParams.itemDescription);
+                            return MenuService.getItemsForCategory($stateParams.itemId);
                         }]
                 }
             });
