@@ -1,35 +1,47 @@
 (function () {
-'use strict';
+    'use strict';
 
-angular.module('Menu')
-.config(RoutesConfig);
+    angular.module('Menu')
+        .config(RoutesConfig);
 
-RoutesConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
-function RoutesConfig($stateProvider, $urlRouterProvider) {
+    RoutesConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
+    function RoutesConfig($stateProvider, $urlRouterProvider) {
 
-  // Redirect to home page if no other URL matches
-  $urlRouterProvider.otherwise('/');
+        // Redirect to home page if no other URL matches
+        $urlRouterProvider.otherwise('/');
 
-  // *** Set up UI states ***
-  $stateProvider
+        // *** Set up UI states ***
+        $stateProvider
 
-  // Home page
-  .state('home', {
-    url: '/',
-    templateUrl: 'src/menu/templates/home.template.html'
-  })
+        // Home page
+            .state('home', {
+                url: '/',
+                templateUrl: 'src/menu/templates/home.template.html'
+            })
 
-  // Categories page
-  .state('categories', {
-    url: '/categories',
-    templateUrl: 'src/menu/templates/main-categories.template.html',
-    controller: 'CategoriesController as categories',
-    resolve: {
-      items: ['MenuService', function (MenuService) {
-        return MenuService.getCategories();
-      }]
+            .state('categories', {
+                url: '/categories',
+                templateUrl: 'src/menu/templates/main-categories.template.html',
+                controller: 'CategoriesController as categories',
+                resolve: {
+                    items: ['MenuService', function (MenuService) {
+                        //console.log("hello" + $stateParams);
+                        return MenuService.getCategories();
+                    }]
+                }
+            })
+
+            .state('category', {
+                url: '/category/{itemDescription}',
+                templateUrl: 'src/menu/templates/category.template.html',
+                controller: 'CategoryController as category',
+                resolve: {
+                    item: ['$stateParams', 'MenuService',
+                        function ($stateParams, MenuService) {
+                            return MenuService.getItemsForCategory("C");
+                        }]
+                }
+            });
     }
-  });
-}
 
 })();
