@@ -18,3 +18,20 @@
 .ui-view-placeholder {
     margin-top: 60px;
 }
+
+input, textarea{
+    background-color:#666;
+    color: #FFF;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #FFF;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #FFF;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #FFF;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #FFF;
+}
