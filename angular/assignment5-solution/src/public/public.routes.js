@@ -23,6 +23,17 @@
                 url: '/sign-up',
                 templateUrl: 'src/public/sign/sign.html'
             })
+            .state('public.my-info', {
+                url: '/my-info',
+                templateUrl: 'src/public/info/my-info.html',
+                controller: 'FavoriteController',
+                controllerAs: 'favoriteCtrl',
+                resolve: {
+                    favoriteMenu: ['SignService', function (SignService) {
+                        return SignService.getFavoriteMenu();
+                    }]
+                }
+            })
             .state('public.menu', {
                 url: '/menu',
                 templateUrl: 'src/public/menu/menu.html',

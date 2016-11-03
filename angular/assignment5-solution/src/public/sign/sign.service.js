@@ -9,20 +9,42 @@
     function SignService($http, ApiBasePath) {
         var service = this;
         var favoriteMenu;
+        var registeredUser;
 
-        service.getItemsForCategory = function (shortName) {
+        service.registerUser = function (user) {
+            registeredUser = user;
+        }
+
+        service.isMenuExist = function (shortName) {
             return $http({
                 method: "GET",
                 url: (ApiBasePath + "/menu_items/" + shortName + ".json"),
             }).then(function () {
-                console.log("this menu exist");
-                favoriteMenu=shortName;
+                //console.log("this menu exist");
+                favoriteMenu =shortName;
                 return true;
             })
                 .catch(function () {
-                    console.log("this menu does not exist");
+                    //console.log("this menu does not exist");
                     return false;
                 });
         };
+
+        service.getFavoriteMenu = function () {
+            return $http({
+                method: "GET",
+                url: (ApiBasePath + "/menu_items/" + favoriteMenu + ".json"),
+            }).then(function (response) {
+                var menu = angular.fromJson(response.data);
+                return {
+                    shortName: favoriteMenu,
+                    title: menu.name,
+                    description: menu.description
+                }
+            })
+                .catch(function (error) {
+                    console.log("Something went terribly wrong: " + error);
+                });
+        }
     }
 })();

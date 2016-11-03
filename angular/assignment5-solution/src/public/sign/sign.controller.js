@@ -11,7 +11,8 @@
         reg.isSaved = false;
 
         reg.submit = function () {
-            var foundMenu = SignService.getItemsForCategory(reg.user.menuNumber);
+            SignService.registerUser(reg.user);
+            var foundMenu = SignService.isMenuExist(reg.user.menuNumber);
 
             if (foundMenu) {
                 foundMenu.then(function (menuExist) {

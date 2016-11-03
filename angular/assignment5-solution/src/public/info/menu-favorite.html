@@ -1,0 +1,24 @@
+<h3>Title: {{ $ctrl.myTitle }}</h3>
+<br>
+<h3>Title: {{ $ctrl.myFlorent.title }}</h3>
+<br>
+<h3>Title: {{ $ctrl.myFlorent.favorite.title }}</h3>
+<br>
+<h3>Title: {{ $ctrl.favoriteMenu.title }}</h3>
+<br>
+<br>
+<h3>Title: {{ $ctrl.favoriteMenu.favorite.title }}</h3>
+<br>
+
+her is the favorite222<br>
+{{$ctrl.favorite.title}}
+<br>
+her is the favoriteMenu3333<br>
+{{$ctrl.favoriteMenu.title}}
+<br>
+
+<ul>
+    <li ng-repeat="item in $ctrl.favoriteMenu">
+        {{ item.title }} -----
+    </li>
+</ul>

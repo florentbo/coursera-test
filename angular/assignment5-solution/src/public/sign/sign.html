@@ -1,13 +1,6 @@
-hello sign up
-
 <div ng-controller="RegistrationController as reg">
-    <h1>Simple Form Validation</h1>
-
     <fieldset>
-        <legend>Registration</legend>
         <form name='regForm' novalidate>
-
-
             <input type="text" name="menuNumber" placeholder="Fill your favorite menu number"
                    ng-model="reg.user.menuNumber"
                    required
@@ -17,7 +10,6 @@ hello sign up
             </span>
             <br>
             <br>
-
 
             <button
                     ng-disabled="regForm.$invalid"
