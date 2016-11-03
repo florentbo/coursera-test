@@ -18,11 +18,9 @@
                 foundMenu.then(function (menuExist) {
                     reg.isMenuNotExist = menuExist ? false : true;
                     reg.isSaved = menuExist;
+                    reg.completed = true;
                 });
             }
-            reg.completed = true;
         };
     }
-
-
 })();

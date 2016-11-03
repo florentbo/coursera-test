@@ -1,15 +1,8 @@
 (function () {
     "use strict";
 
-    angular.module('public')
-        .component('menuFavorite', {
-            templateUrl: 'src/public/info/menu-favorite.html',
-            bindings: {
-                favorite: '=',
-                myTitle: '@title',
-                myFlorent: '@florent'
-            }
-        });
-
-
+    angular.module('public').component('fav', {
+        templateUrl: 'src/public/info/menu-favorite.html',
+        bindings: {favorite: '='}
+    });
 })();

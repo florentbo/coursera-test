@@ -1,24 +1,24 @@
-<h3>Title: {{ $ctrl.myTitle }}</h3>
-<br>
-<h3>Title: {{ $ctrl.myFlorent.title }}</h3>
-<br>
-<h3>Title: {{ $ctrl.myFlorent.favorite.title }}</h3>
-<br>
-<h3>Title: {{ $ctrl.favoriteMenu.title }}</h3>
-<br>
-<br>
-<h3>Title: {{ $ctrl.favoriteMenu.favorite.title }}</h3>
-<br>
+<div ng-if='$ctrl.favorite.isNotSigned'>
+    Not Signed Up Yet. <a ui-sref="public.sign-up">Sign up Now!</a>
+</div>
 
-her is the favorite222<br>
-{{$ctrl.favorite.title}}
-<br>
-her is the favoriteMenu3333<br>
-{{$ctrl.favoriteMenu.title}}
-<br>
+<div ng-if='$ctrl.favorite.user'>
+    <div class="page-header">
+        <h1>User information</h1>
+    </div>
+    <p>First name:    {{$ctrl.favorite.user.firstName}}</p>
+    <p>Last  name:    {{$ctrl.favorite.user.lastName}}</p>
+    <p>Email Address: {{$ctrl.favorite.user.email}}</p>
+    <p>Phone Number:  {{$ctrl.favorite.user.phone}}</p>
 
-<ul>
-    <li ng-repeat="item in $ctrl.favoriteMenu">
-        {{ item.title }} -----
-    </li>
-</ul>
+    <h2>Favorite dish</h2>
+    <div class="media">
+        <div class="media-left">
+            <img width="200" height="200" ng-src="images/menu/{{$ctrl.favorite.categoryShortName}}/{{$ctrl.favorite.categoryShortName}}.jpg" alt="{{$ctrl.favorite.title}}">
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{$ctrl.favorite.title}}</h4>
+            {{$ctrl.favorite.description}}
+        </div>
+    </div>
+</div>

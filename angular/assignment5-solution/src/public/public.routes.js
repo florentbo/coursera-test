@@ -26,8 +26,6 @@
             .state('public.my-info', {
                 url: '/my-info',
                 templateUrl: 'src/public/info/my-info.html',
-                controller: 'FavoriteController',
-                controllerAs: 'favoriteCtrl',
                 resolve: {
                     favoriteMenu: ['SignService', function (SignService) {
                         return SignService.getFavoriteMenu();

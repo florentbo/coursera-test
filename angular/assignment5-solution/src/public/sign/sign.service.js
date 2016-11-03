@@ -10,10 +10,12 @@
         var service = this;
         var favoriteMenu;
         var registeredUser;
+        var isNotSigned = true;
 
         service.registerUser = function (user) {
+            isNotSigned = false;
             registeredUser = user;
-        }
+        };
 
         service.isMenuExist = function (shortName) {
             return $http({
@@ -33,13 +35,17 @@
         service.getFavoriteMenu = function () {
             return $http({
                 method: "GET",
-                url: (ApiBasePath + "/menu_items/" + favoriteMenu + ".json"),
+                //url: (ApiBasePath + "/menu_items/" + favoriteMenu + ".json"),
+                url: (ApiBasePath + "/menu_items/A1.json"),
             }).then(function (response) {
                 var menu = angular.fromJson(response.data);
                 return {
+                    isNotSigned: isNotSigned,
+                    user: registeredUser,
                     shortName: favoriteMenu,
                     title: menu.name,
-                    description: menu.description
+                    description: menu.description,
+                    categoryShortName: menu.category_short_name
                 }
             })
                 .catch(function (error) {
