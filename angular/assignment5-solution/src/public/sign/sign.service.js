@@ -48,7 +48,9 @@
                 }
             })
                 .catch(function (error) {
-                    console.log("Something went terribly wrong: " + error);
+                    return {
+                        isNotSigned: isNotSigned
+                    }
                 });
         }
     }
