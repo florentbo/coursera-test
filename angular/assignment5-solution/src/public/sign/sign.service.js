@@ -35,8 +35,7 @@
         service.getFavoriteMenu = function () {
             return $http({
                 method: "GET",
-                //url: (ApiBasePath + "/menu_items/" + favoriteMenu + ".json"),
-                url: (ApiBasePath + "/menu_items/A1.json"),
+                url: (ApiBasePath + "/menu_items/" + favoriteMenu + ".json")
             }).then(function (response) {
                 var menu = angular.fromJson(response.data);
                 return {
